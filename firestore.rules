@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /hisab/{docId} {
+
+      // Create: user শুধু নিজের uid দিয়ে data বানাতে পারবে
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid;
+
+      // Read / Update / Delete: শুধু নিজের data access করতে পারবে
+      allow read, update, delete: if request.auth != null
+        && resource.data.uid == request.auth.uid;
+    }
+
+  }
+}

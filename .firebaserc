@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "hisab-962d6"
+  },
+  "targets": {
+    "hisab-962d6": {
+      "hosting": {
+        "default": [
+          "hisab-962d6"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HisabBook | Login</title>
+
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+<div class="auth-layout fade-page">
+
+  <!-- LEFT -->
+  <div class="auth-left">
+
+    <!-- LOGIN -->
+    <div class="auth-card slide-up" id="loginCard">
+      <h2 class="app-title">📘 HisabBook</h2>
+      <p class="subtitle">Manage your income & expense smartly</p>
+
+      <input type="email" id="email" placeholder="Email address">
+
+      <div class="password-wrap">
+        <input type="password" id="password" placeholder="Password">
+        <span class="toggle-eye" onclick="togglePassword('password')">👁</span>
+      </div>
+      <div class="remember-row">
+        <label class="remember-left">
+        <input type="checkbox" id="rememberMe">
+          Remember me
+        </label>
+
+        <span class="forgot-password" id="forgotPassword">
+          Forgot password?
+        </span>
+      </div>
+
+      <div class="auth-msg error" id="loginMsg"></div>
+
+      <button id="loginBtn">Sign in</button>
+
+      <!-- Google -->
+      <button class="google-btn" id="googleLogin">
+        <span>G</span> Continue with Google
+      </button>
+
+      <p class="switch">
+        Don’t have an account?
+        <span onclick="toggleAuth()">Create now</span>
+      </p>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="auth-card slide-up hidden" id="registerCard">
+      <h2>Create Account</h2>
+      <p class="subtitle">Start managing your money today</p>
+
+      <input type="email" id="regEmail" placeholder="Email address">
+
+      <div class="password-wrap">
+        <input type="password" id="regPassword" placeholder="Password">
+        <div class="password-strength">
+          <div class="strength-bar"></div>
+        </div>
+        <p class="strength-text" id="strengthText"></p>
+        <span class="toggle-eye" onclick="togglePassword('regPassword')">👁</span>
+      </div>
+
+      <div class="auth-msg" id="registerMsg"></div>
+
+      <button id="registerBtn">Create account</button>
+
+      <p class="switch">
+        Already have an account?
+        <span onclick="toggleAuth()">Sign in</span>
+      </p>
+    </div>
+
+        <!-- FORGOT PASSWORD MODAL -->
+<div class="reset-modal hidden" id="resetModal">
+  <div class="reset-box">
+    <h3>Reset password</h3>
+    <p>Your email address</p>
+
+    <input type="email" id="resetEmail" placeholder="Enter your email">
+
+    <div class="auth-msg" id="resetMsg"></div>
+
+    <button id="resetBtn">Send reset link</button>
+    <span class="close-reset" id="closeReset">Cancel</span>
+  </div>
+</div>
+
+
+    <!-- FOOTER -->
+    <footer class="auth-footer">
+      Crafted with care by <strong>Sajjad</strong>
+    </footer>
+
+  </div>
+
+  <!-- RIGHT -->
+  <div class="auth-right">
+    <div class="promo-box">
+      <h2>Simple & smart money tracking</h2>
+      <p>
+        HisabBook helps you track income, expenses and savings
+        with clarity and confidence.
+      </p>
+      <div class="feature">💰 Monthly summary & balance</div>
+      <div class="feature">📊 Visual charts & records</div>
+      <div class="feature">🔐 Secure & private</div>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/firebase.js" type="module"></script>
+<script src="js/auth.js" type="module"></script>
+
+<script>
+function toggleAuth(){
+  document.getElementById("loginCard").classList.toggle("hidden");
+  document.getElementById("registerCard").classList.toggle("hidden");
+}
+
+function togglePassword(id){
+  const i = document.getElementById(id);
+  i.type = i.type === "password" ? "text" : "password";
+}
+</script>
+
+</body>
+</html>

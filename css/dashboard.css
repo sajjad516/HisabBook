@@ -1,0 +1,1026 @@
+body{
+  margin:0;
+  font-family:"Segoe UI",sans-serif;
+  background:linear-gradient(135deg,#eef2ff,#fdf2f8);
+}
+
+/* 🔒 Global scroll fix */
+html, body{
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+body.dark{
+  background:#020617;
+  color:#e5e7eb;
+}
+
+.app{
+  display:flex;
+  min-height:100vh;
+}
+
+/* Sidebar */
+.sidebar{
+  width:220px;
+  background:#0f172a;
+  color:#fff;
+  padding:20px;
+  flex-shrink:0;
+  transition:transform .3s ease;
+}
+
+.daily-card{
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:10px;
+  font-weight:bold;
+}
+
+.daily-card.income{background:#16a34a;}
+.daily-card.expense{background:#dc2626;}
+.daily-card.saving{background:#2563eb;}
+
+/* Drawer */
+@media(max-width:1024px){
+  .sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    height:100vh;
+    transform:translateX(-100%);
+    z-index:1000;
+  }
+  .sidebar.show{
+    transform:translateX(0);
+  }
+}
+
+/* Main */
+.container{
+  flex:1;
+  padding:25px 25px 10px 25px;
+  box-sizing:border-box;
+  overflow-x:hidden;
+}
+
+/* Header */
+.top-bar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.right{
+  display:flex;
+  gap:10px;
+}
+
+.menu-btn{
+  display:none;
+  background:none;
+  border:none;
+  font-size:22px;
+  cursor:pointer;
+  position:relative;
+  color:#0f172a;   /* light mode এ dark color */
+  z-index:1101;
+  transition: transform .25s ease, opacity .2s ease;
+}
+
+/* Hamburger hover & active */
+
+.menu-btn:hover{
+  opacity:0.85;
+}
+
+/* sidebar open হলে icon rotate */
+.menu-btn.active{
+  transform: rotate(90deg);
+}
+
+
+/* 🔧 mobile header fix */
+@media(max-width:1024px){
+  .menu-btn{display:block;}
+  .left{
+    gap:14px;
+  }
+}
+
+.logo{
+  font-size:22px;
+  font-weight:bold;
+}
+
+.logout-btn,.dark-btn{
+  border:none;
+  padding:8px 16px;
+  border-radius:8px;
+  cursor:pointer;
+  color:#fff;
+}
+
+.logout-btn{background:#ef4444;}
+.dark-btn{background:#334155;}
+
+/* dark mode */
+body.dark .menu-btn{
+  color:#ffffff;   /* dark mode এ white */
+}
+
+/* Card */
+.card{
+  background:#fff;
+  padding:18px;
+  border-radius:14px;
+  margin-bottom:15px;
+  position:relative;
+  overflow:hidden;
+  z-index:1;
+}
+
+body.dark .card{
+  background:#020617;
+  border:1px solid #1e293b;
+}
+
+/* Animated Border */
+.card.animated::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:16px;
+  background:linear-gradient(90deg,#6366f1,#22c55e,#ec4899,#38bdf8);
+  z-index:-1;
+  animation:borderMove 15s linear infinite;
+}
+
+@keyframes borderMove{
+  from{filter:hue-rotate(0deg);}
+  to{filter:hue-rotate(360deg);}
+}
+
+/* Inputs */
+input,
+select{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  box-sizing:border-box;
+}
+
+/* Buttons */
+button{
+  width:100%;
+  padding:12px;
+  background:#4f46e5;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* Summary */
+.summary{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.box{
+  padding:14px;
+  border-radius:12px;
+  color:#fff;
+  font-weight:bold;
+}
+
+.income{background:#16a34a;}
+.expense{background:#dc2626;}
+.saving{background:#2563eb;}
+.balance{background:#7c3aed;}
+
+/* List */
+ul{list-style:none;padding:0;}
+
+li{
+  background:#f8fafc;
+  padding:10px;
+  border-radius:8px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:6px;
+}
+
+body.dark li{
+  background:#020617;
+  border:1px solid #1e293b;
+}
+
+li span,strong{
+  color:#0f172a;
+}
+
+body.dark li span,
+body.dark li strong{
+  color:#e5e7eb;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+}
+
+.actions button{
+  width:auto;
+  padding:6px 10px;
+}
+
+
+
+/* Alert Card */
+/* Alert base */
+.alert-card{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  min-width:280px;
+  max-width:90%;
+  padding:14px 44px 18px 18px;
+  border-radius:14px;
+  font-weight:600;
+  display:none;
+  z-index:10000;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+  align-items:center;
+  gap:12px;
+}
+
+/* success */
+.alert-success{
+  background:#dcfce7;
+  color:#166534;
+}
+.alert-success .alert-progress{
+  background:#22c55e;
+}
+
+/* error */
+.alert-error{
+  background:#fee2e2;
+  color:#991b1b;
+}
+.alert-error .alert-progress{
+  background:#dc2626;
+}
+
+/* message */
+#alertMessage{
+  flex:1;
+}
+
+/* close */
+.alert-close{
+  cursor:pointer;
+  font-size:14px;
+  line-height:1;
+}
+
+/* progress bar */
+.alert-progress{
+  position:absolute;
+  left:0;
+  bottom:0;
+  height:4px;
+  width:100%;
+}
+
+@keyframes alertProgress{
+  from{width:100%;}
+  to{width:0%;}
+}
+
+
+
+/* Modal */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+}
+
+/* 🔧 FIX: Note modal always on top */
+#noteModal{
+  z-index: 10005;
+}
+
+#noteModal .modal-content{
+  position: relative;
+  z-index: 10006;
+}
+
+.modal-content{
+  background:#fff;
+  max-width:360px;
+  margin:15% auto;
+  padding:20px;
+  border-radius:14px;
+}
+
+body.dark .modal-content{
+  background:#020617;
+}
+
+
+/* existing styles untouched */
+
+/* Loading & Empty */
+.loading,
+.empty{
+  text-align:center;
+  padding:20px;
+  font-weight:600;
+  color:#64748b;
+  display:none;
+}
+
+/* Modal buttons */
+.modal-actions{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:15px;
+}
+
+.cancel-btn{
+  background:#475569;
+}
+
+.delete-btn{
+  background:#dc2626;
+}
+/* Confirm Delete Modal Fix */
+#confirmModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:9999;
+}
+
+#confirmModal .modal-content{
+  background:#fff;
+  max-width:360px;
+  margin:20% auto;
+  padding:20px;
+  border-radius:14px;
+  text-align:center;
+}
+
+body.dark #confirmModal .modal-content{
+  background:#020617;
+  color:#e5e7eb;
+}
+
+/* 🔧 FIX: Edit Modal always on top */
+#editModal{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 10001; /* card + animated border এর উপরে */
+}
+
+/* modal content proper center & layer */
+#editModal .modal-content{
+  position: relative;
+  z-index: 10002;
+}
+
+.close-btn{
+  cursor: pointer;
+  color: #dc2626;
+  font-size: 25px;
+}
+
+/* Mobile header stability */
+@media (max-width:1024px){
+  .top-bar{
+    position:sticky;
+    top:0;
+    background:inherit;
+    padding-bottom:10px;
+    z-index:900;
+  }
+}
+
+/* Chart responsive fix */
+#monthlyChart{
+  width:100% !important;
+  max-height:260px;
+}
+
+/* ===============================
+   UI POLISH (SAFE ADDITIONS)
+   =============================== */
+
+/* Prevent vertical + horizontal overflow on mobile */
+@media (max-width:768px){
+  body{
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
+
+  .container{
+    padding:16px;
+  }
+}
+
+/* Improve button look without breaking logic */
+button{
+  transition: background .25s ease, transform .15s ease;
+}
+
+button:active{
+  transform:scale(.98);
+}
+
+/* Input focus polish */
+input:focus,
+select:focus{
+  outline:none;
+  border-color:#6366f1;
+  box-shadow:0 0 0 2px rgba(99,102,241,.15);
+}
+
+/* ===== Record Row Layout ===== */
+
+.record-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f8fafc;
+  margin-bottom: 8px;
+  transition: 
+    background-color .2s ease,
+    transform .15s ease,
+    box-shadow .2s ease;
+}
+
+.record-row:hover {
+  background: #eef2ff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+body.dark .record-row {
+  background: #020617;
+  border: 1px solid #1e293b;
+}
+
+body.dark .record-row:hover {
+  background: #020617;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+.record-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 160px;
+}
+
+.record-badge {
+  text-transform: capitalize;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.record-badge.income {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.record-badge.expense {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.record-badge.saving {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.record-amount {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.record-center {
+  font-size: 13px;
+  opacity: 0.75;
+  white-space: nowrap;
+}
+
+.record-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.record-actions button {
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ===== Record Base Upgrade ===== */
+#list li {
+  position: relative;
+  transition: 
+    transform .18s ease,
+    box-shadow .18s ease,
+    background-color .18s ease;
+}
+
+/* ===== Strong Hover Effect ===== */
+#list li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+  background: #eef2ff;
+}
+
+/* Dark mode hover */
+body.dark #list li:hover {
+  background: #020617;
+  box-shadow: 0 16px 34px rgba(0,0,0,0.5);
+}
+
+/* ===== Left Color Strip ===== */
+#list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 5px;
+  border-radius: 6px;
+  background: transparent;
+  transition: background .2s ease;
+}
+
+/* income */
+#list li[data-type="income"]::before {
+  background: #16a34a;
+}
+
+/* expense */
+#list li[data-type="expense"]::before {
+  background: #dc2626;
+}
+
+/* saving */
+#list li[data-type="saving"]::before {
+  background: #2563eb;
+}
+
+
+/* ===== Record UI Upgrade ===== */
+
+li{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  transition:all .25s ease;
+}
+
+li:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 20px rgba(0,0,0,.08);
+}
+
+/* left section */
+.record-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+/* type badge */
+.record-type{
+  text-transform:uppercase;
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:6px;
+  font-weight:700;
+}
+
+li[data-type="income"] .record-type{background:#dcfce7;color:#166534;}
+li[data-type="expense"] .record-type{background:#fee2e2;color:#991b1b;}
+li[data-type="saving"] .record-type{background:#dbeafe;color:#1e40af;}
+
+/* amount */
+.record-amount{
+  font-weight:800;
+  font-size:16px;
+}
+
+/* date time */
+.record-datetime{
+  font-size:12px;
+  color:#64748b;
+}
+
+/* actions */
+.actions{
+  opacity:0;
+  transition:opacity .2s ease;
+}
+
+li:hover .actions{
+  opacity:1;
+}
+
+.record-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.record-type{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  font-weight:700;
+  padding:4px 8px;
+  border-radius:999px;
+  text-transform:uppercase;
+  background:#e0e7ff;
+}
+
+.record-amount{
+  font-weight:700;
+}
+
+.record-datetime{
+  font-size:12px;
+  color:#64748b;
+}
+
+/* Record row layout fix */
+li{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+/* Actions always right */
+.actions{
+  display:flex;
+  gap:8px;
+  flex-shrink:0;
+}
+
+/* ===== See more button (records toggle) ===== */
+.see-more-btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+/* ===== Footer always visible ===== */
+.app-footer{
+  position: relative;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid #e5e7eb;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+  z-index: 9999;
+}
+
+.footer-link{
+  cursor:pointer;
+  color:#2563eb;
+  font-weight:600;
+}
+
+/* ===== Contact Modal (Better UI/UX) ===== */
+.contact-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(2,6,23,.60);
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:10050;
+}
+
+.contact-box{
+  width:100%;
+  max-width:420px;
+  background:#ffffff;
+  color:#0f172a;
+  border-radius:18px;
+  box-shadow:0 24px 70px rgba(0,0,0,.35);
+  overflow:hidden;
+  border:1px solid rgba(15,23,42,.08);
+}
+
+body.dark .contact-box{
+  background:#0b1220;
+  color:#e5e7eb;
+  border:1px solid rgba(148,163,184,.18);
+}
+
+.contact-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 18px;
+  border-bottom:1px solid rgba(148,163,184,.25);
+  background:rgba(99,102,241,.08);
+}
+
+body.dark .contact-head{
+  background:rgba(99,102,241,.14);
+  border-bottom:1px solid rgba(148,163,184,.18);
+}
+
+.contact-head h3{
+  margin:0;
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:.2px;
+}
+
+.contact-x{
+  width:36px;
+  height:36px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:rgba(15,23,42,.08);
+  color:#0f172a;
+  font-size:16px;
+}
+
+body.dark .contact-x{
+  background:rgba(226,232,240,.10);
+  color:#e5e7eb;
+}
+
+.contact-body{
+  padding:16px 18px 8px;
+}
+
+.contact-row{
+  display:flex;
+  gap:12px;
+  padding:12px 12px;
+  border-radius:14px;
+  background:rgba(15,23,42,.04);
+  margin-bottom:10px;
+  align-items:center;
+}
+
+body.dark .contact-row{
+  background:rgba(226,232,240,.06);
+}
+
+.contact-icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(99,102,241,.14);
+  font-size:18px;
+  flex-shrink:0;
+}
+
+body.dark .contact-icon{
+  background:rgba(99,102,241,.22);
+}
+
+.contact-text{
+  min-width:0;
+}
+
+.contact-label{
+  font-size:12px;
+  opacity:.75;
+  margin-bottom:2px;
+  font-weight:700;
+}
+
+.contact-link{
+  display:inline-block;
+  font-size:14px;
+  font-weight:800;
+  color:#2563eb;
+  text-decoration:none;
+  word-break:break-word;
+}
+
+body.dark .contact-link{
+  color:#60a5fa;
+}
+
+.contact-link:hover{
+  text-decoration:underline;
+}
+
+.contact-actions{
+  padding:12px 18px 16px;
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+.contact-close-btn{
+  width:auto;
+  padding:10px 14px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:800;
+  background:#4f46e5;
+  color:#ffffff;
+}
+
+.contact-close-btn:active{
+  transform:scale(.98);
+}
+
+body.dark .app-footer{
+  background: rgba(2,6,23,0.92);
+  border-top: 1px solid #1e293b;
+  color: #94a3b8;
+}
+
+.app-footer strong{
+  color: #14532d;
+}
+
+body.dark .app-footer strong{
+  color: #22c55e;
+}
+
+/* Footer যেন content ঢেকে না ফেলে */
+/* body{
+  padding-bottom: 5px;
+} */
+
+/* mobile friendly */
+@media(max-width:600px){
+  .record-left{
+    gap:8px;
+  }
+  .record-amount{
+    font-size:15px;
+  }
+}
+
+
+.record-tools{
+  display:flex;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.record-tools input,
+.record-tools select{
+  padding:8px 10px;
+  border-radius:8px;
+  border:1px solid #cbd5f5;
+  font-size:14px;
+}
+
+@media(max-width:600px){
+  .record-tools{
+    flex-direction:column;
+  }
+}
+
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 640px) {
+  .record-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .record-center {
+    width: 100%;
+    font-size: 12px;
+  }
+
+  .record-actions {
+    margin-left: auto;
+  }
+}
+
+
+/* Card spacing on small devices */
+@media (max-width:768px){
+  .card{
+    padding:15px;
+    border-radius:12px;
+  }
+}
+
+/* Hamburger visibility fix (all modes) */
+.menu-btn{
+  color:#0f172a;
+}
+
+body.dark .menu-btn{
+  color:#ffffff;
+}
+
+/* Header buttons alignment on mobile */
+@media (max-width:768px){
+  .right{
+    gap:8px;
+  }
+
+  .logout-btn,
+  .dark-btn{
+    padding:6px 12px;
+    font-size:13px;
+  }
+}
+
+/* List item touch-friendly */
+@media (max-width:768px){
+  li{
+    padding:12px;
+  }
+
+  .actions button{
+    padding:6px 8px;
+    font-size:13px;
+  }
+}
+
+/* Alert smoother entrance */
+.alert-card{
+  animation:fadeSlide .25s ease;
+}
+
+@keyframes fadeSlide{
+  from{
+    opacity:0;
+    transform:translate(-50%,-10px);
+  }
+  to{
+    opacity:1;
+    transform:translate(-50%,0);
+  }
+}
+
+@media (max-width:600px){
+  li{
+    align-items:flex-start;
+  }
+
+  .record-left{
+    flex:1;
+  }
+
+  .actions{
+    align-self:center;
+  }
+}

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>HisabBook Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#0f172a">
+    <link rel="stylesheet" href="css/dashboard.css">
+  </head>
+  <body>
+
+    <div class="app">
+
+      <aside class="sidebar" id="sidebar">
+        <h3>📅 Today</h3>
+        <div class="daily-card income">Income ৳ <span id="dailyIncome">0</span></div>
+        <div class="daily-card expense">Expense ৳ <span id="dailyExpense">0</span></div>
+        <div class="daily-card saving">Saving ৳ <span id="dailySaving">0</span></div>
+      </aside>
+
+      <main class="container">
+
+        <div class="top-bar">
+          <div class="left">
+            <button class="menu-btn" id="menuBtn">☰</button>
+            <div class="logo">📊হিসাববই</div>
+          </div>
+          <div class="right">
+            <button class="dark-btn" id="darkToggle">🌙</button>
+            <button class="dark-btn" id="muteBtn">🔊</button>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+          </div>
+
+        </div>
+
+        <div class="card animated">
+          <h3>Select Month</h3>
+          <input type="month" id="monthFilter">
+        </div>
+
+        <div class="card animated" id="addSection">
+          <h3>Add Entry (Current Month)</h3>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <select id="type">
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+              <option value="saving">Saving</option>
+            </select>
+
+            <!-- NEW: category type এর পাশে -->
+            <select id="category"></select>
+          </div>
+
+          <input type="number" id="amount" placeholder="Enter amount">
+
+          <button id="addBtn">Add Entry</button>
+        </div>
+
+        <div class="summary">
+          <div class="box income">Income ৳ <span id="totalIncome">0</span></div>
+          <div class="box expense">Expense ৳ <span id="totalExpense">0</span></div>
+          <div class="box saving">Saving ৳ <span id="totalSaving">0</span></div>
+          <div class="box balance">Balance ৳ <span id="balance">0</span></div>
+        </div>
+
+        <!-- graph/Chart -->
+        <div class="card animated">
+          <canvas id="monthlyChart" height="220"></canvas>
+        </div>
+
+        <div class="card animated">
+          <h3>All Records</h3>
+          
+          <div class="record-tools">
+            <input type="text" id="searchInput" placeholder="Search amount or type...">
+            <select id="typeFilter">
+              <option value="all">All</option>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+              <option value="saving">Saving</option>
+            </select>
+          </div>
+
+          <div id="loading" class="loading">Loading...</div>
+          <div id="empty" class="empty">No records found</div>
+
+          <ul id="list"></ul>
+          <button id="seeMoreBtn" class="see-more-btn">
+            👇 See more
+          </button>
+        </div>
+        <!-- Footer section -->
+        <footer class="app-footer">
+          Crafted with care by <strong>Sajjad</strong> · 
+          <span id="contactBtn" class="footer-link">Contact</span>
+        </footer>
+      </main>
+    </div>
+    <div id="contactModal" class="contact-modal" aria-hidden="true">
+      <div class="contact-box" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+        <div class="contact-head">
+          <h3 id="contactTitle">Contact</h3>
+          <button class="contact-x" type="button" onclick="closeContact()">✕</button>
+        </div>
+
+        <div class="contact-body">
+          <div class="contact-row">
+            <div class="contact-icon">✉️</div>
+            <div class="contact-text">
+              <div class="contact-label">Email</div>
+              <a class="contact-link" href="mailto:mohammedsajjaduli9@gmail.com">mohammedsajjaduli9@gmail.com</a>
+              <p>Your data is private and visible only to you.</p>
+            </div>
+          </div>
+
+          <div class="contact-row">
+            <div class="contact-icon">📘</div>
+            <div class="contact-text">
+              <div class="contact-label">Facebook</div>
+              <a class="contact-link" href="https://fb.com/sajjad516" target="_blank" rel="noopener">fb.com/sajjad516</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-actions">
+          <button class="contact-close-btn" type="button" onclick="closeContact()">Close</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="alertCard" class="alert-card">
+      <span id="alertMessage"></span>
+      <span class="alert-close" id="alertClose">✖</span>
+      <div class="alert-progress"></div>
+    </div>
+
+    <!-- Delete Confirm Modal -->
+    <div id="confirmModal" class="modal">
+      <div class="modal-content">
+        <h3>Confirm Delete</h3>
+        <p>আপনি কি নিশ্চিত এই রেকর্ডটি ডিলিট করতে চান?</p>
+        <div style="display:flex; gap:10px; margin-top:15px;">
+          <button onclick="confirmDelete()" style="background:#dc2626;">Delete</button>
+          <button onclick="closeConfirm()" style="background:#334155;">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeEditModal()">×</span>
+        <h3>Edit Entry</h3>
+        <select id="editType">
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+          <option value="saving">Saving</option>
+        </select>
+        <input type="number" id="editAmount">
+        <button onclick="updateEntry()">Update</button>
+      </div>
+    </div>
+
+    <!-- Note Modal -->
+    <div id="noteModal" class="modal">
+      <div class="modal-content">
+        <h3>Add Note</h3>
+        <input type="text" id="noteInput" placeholder="বিস্তারিত লিখুন">
+        <div class="modal-actions">
+          <button onclick="saveNote()">Save</button>
+          <button class="cancel-btn" onclick="closeNote()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/firebase.js" type="module"></script>
+    <script src="js/dashboard.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </body> 
+</html>
