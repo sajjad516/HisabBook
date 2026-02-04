@@ -47,7 +47,7 @@
 
       <p class="switch">
         Don’t have an account?
-        <span onclick="toggleAuth()">Create now</span>
+        <span onclick="location.href='index.html?mode=register'">Create now</span>
       </p>
     </div>
 
@@ -73,7 +73,7 @@
 
       <p class="switch">
         Already have an account?
-        <span onclick="toggleAuth()">Sign in</span>
+        <span onclick="location.href='index.html?mode=login'">Sign in</span>
       </p>
     </div>
 
@@ -120,15 +120,29 @@
 <script src="js/auth.js" type="module"></script>
 
 <script>
-function toggleAuth(){
-  document.getElementById("loginCard").classList.toggle("hidden");
-  document.getElementById("registerCard").classList.toggle("hidden");
-}
+  function toggleAuth(){
+    document.getElementById("loginCard").classList.toggle("hidden");
+    document.getElementById("registerCard").classList.toggle("hidden");
+  }
 
-function togglePassword(id){
-  const i = document.getElementById(id);
-  i.type = i.type === "password" ? "text" : "password";
-}
+  // ✅ URL mode অনুযায়ী কোন কার্ড দেখাবে (first-time = register)
+  (function () {
+    const params = new URLSearchParams(location.search);
+    const mode = params.get("mode") || "register"; // default register
+
+    const loginCard = document.getElementById("loginCard");
+    const registerCard = document.getElementById("registerCard");
+
+    if (!loginCard || !registerCard) return;
+
+    if (mode === "login") {
+      loginCard.classList.remove("hidden");
+      registerCard.classList.add("hidden");
+    } else {
+      registerCard.classList.remove("hidden");
+      loginCard.classList.add("hidden");
+    }
+  })();
 </script>
 
 </body>

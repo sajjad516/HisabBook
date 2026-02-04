@@ -118,9 +118,11 @@ if (savedEmail) {
 /* 👁 Password toggle */
 window.togglePassword = (id) => {
   const input = document.getElementById(id);
-  const eye = input.nextElementSibling; // 👁 span
+  if (!input) return;
 
-  if (!input || !eye) return;
+  // ✅ Always get the eye icon correctly (login + register both)
+  const eye = input.parentElement?.querySelector(".toggle-eye");
+  if (!eye) return;
 
   if (input.type === "password") {
     input.type = "text";
@@ -207,13 +209,17 @@ if(regPassword){
     if(val.length >= 6) strength++;
     if(/[A-Z]/.test(val)) strength++;
     if(/[0-9]/.test(val)) strength++;
-    if(/[^A-Za-z0-9]/.test(val)) strength++;
-
-    if(val.length === 0){
+    if (/[^A-Za-z0-9]/.test(val)) strength++;
+    
+    if (val.length === 0) {
       strengthBar.style.width = "0%";
       strengthText.innerText = "";
+      strengthBar.parentElement.style.display = "none";
       return;
     }
+
+    // ✅ খালি না হলে show
+    strengthBar.parentElement.style.display = "block";
 
     if(strength <= 1){
       strengthBar.style.width = "25%";
