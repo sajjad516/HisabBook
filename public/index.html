@@ -128,7 +128,8 @@
   // ✅ URL mode অনুযায়ী কোন কার্ড দেখাবে (first-time = register)
   (function () {
     const params = new URLSearchParams(location.search);
-    const mode = params.get("mode") || "register"; // default register
+    const hasVisited = localStorage.getItem("hasVisitedAuth") === "true";
+    const mode = params.get("mode") || (hasVisited ? "login" : "register");
 
     const loginCard = document.getElementById("loginCard");
     const registerCard = document.getElementById("registerCard");

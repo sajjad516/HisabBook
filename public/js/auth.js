@@ -63,6 +63,7 @@ if (registerBtn) {
 
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
+        localStorage.setItem("hasVisitedAuth", "true");
         showMsg(registerMsg,"Account created successfully","success");
         setTimeout(()=>location.href="index.html",1200);
       })
@@ -90,6 +91,7 @@ if (loginBtn) {
     setPersistence(auth, persistence)
       .then(() => signInWithEmailAndPassword(auth, email, password))
       .then(() => {
+        localStorage.setItem("hasVisitedAuth", "true");
 
         // শুধু Email autofill (optional)
         if (rememberMe && rememberMe.checked) {
@@ -188,6 +190,7 @@ if (googleBtn) {
   googleBtn.addEventListener("click", () => {
     signInWithPopup(auth, provider)
       .then(() => {
+        localStorage.setItem("hasVisitedAuth", "true");
         window.location.href = "dashboard.html";
       })
       .catch((error) => {
