@@ -117,6 +117,33 @@
 </div>
 
 <script src="js/firebase.js" type="module"></script>
+<script type="module">
+  import { auth } from "./js/firebase.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  const loginCard = document.getElementById("loginCard");
+  const registerCard = document.getElementById("registerCard");
+
+  // শুরুতে কিছুই দেখাবে না
+  loginCard.classList.add("hidden");
+  registerCard.classList.add("hidden");
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // 🔥 লগইন থাকলে সরাসরি dashboard
+      location.replace("dashboard.html");
+    } else {
+      // 🔥 লগইন না থাকলে first-time logic
+      const hasVisited = localStorage.getItem("hasVisitedAuth") === "true";
+
+      if (hasVisited) {
+        loginCard.classList.remove("hidden");
+      } else {
+        registerCard.classList.remove("hidden");
+      }
+    }
+  });
+</script>
 <script src="js/auth.js" type="module"></script>
 <script type="module">
   import { auth } from "./js/firebase.js";
@@ -138,26 +165,6 @@
     document.getElementById("loginCard").classList.toggle("hidden");
     document.getElementById("registerCard").classList.toggle("hidden");
   }
-
-  // ✅ URL mode অনুযায়ী কোন কার্ড দেখাবে (first-time = register)
-  (function () {
-    const params = new URLSearchParams(location.search);
-    const hasVisited = localStorage.getItem("hasVisitedAuth") === "true";
-    const mode = params.get("mode") || (hasVisited ? "login" : "register");
-
-    const loginCard = document.getElementById("loginCard");
-    const registerCard = document.getElementById("registerCard");
-
-    if (!loginCard || !registerCard) return;
-
-    if (mode === "login") {
-      loginCard.classList.remove("hidden");
-      registerCard.classList.add("hidden");
-    } else {
-      registerCard.classList.remove("hidden");
-      loginCard.classList.add("hidden");
-    }
-  })();
 </script>
 
 </body>
