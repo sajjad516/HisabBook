@@ -118,6 +118,20 @@
 
 <script src="js/firebase.js" type="module"></script>
 <script src="js/auth.js" type="module"></script>
+<script type="module">
+  import { auth } from "./js/firebase.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  // ✅ Already logged in হলে root (/) থেকে dashboard এ পাঠিয়ে দেবে
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // index.html এ থাকলে dashboard এ redirect
+      if (!location.pathname.includes("dashboard")) {
+        location.replace("dashboard.html");
+      }
+    }
+  });
+</script>
 
 <script>
   function toggleAuth(){
